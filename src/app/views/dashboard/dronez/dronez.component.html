@@ -1,0 +1,62 @@
+<div class="mt--72">
+  <div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.sm="100" fxFlex.gt-sm="100">
+
+      <mat-card class="p-0 overflow-x-auto" fxLayout="row wrap">
+          <mat-table fxFlex [dataSource]="drones" class="mat-elevation-z1 min-w-600">
+
+            <!-- Drone ID Column -->
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef> Drone ID </mat-header-cell>
+              <mat-cell *matCellDef="let drone" style="font-size:larger"> Drone {{drone.id}} </mat-cell>
+            </ng-container>
+
+            <!-- Drone Name Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> Drone Name </mat-header-cell>
+              <mat-cell *matCellDef="let drone" style="font-size:larger"> "{{drone.name}}" </mat-cell>
+            </ng-container>
+
+            <!-- Drone Weight Limit Column -->
+            <ng-container matColumnDef="weightLimit">
+              <mat-header-cell *matHeaderCellDef> Drone Weight Limit </mat-header-cell>
+              <mat-cell *matCellDef="let drone" style="font-size:larger"> {{drone.weightLimit}} </mat-cell>
+            </ng-container>
+      
+            <!-- Trips Column -->
+            <ng-container matColumnDef="trips">
+              <mat-header-cell *matHeaderCellDef> Trips </mat-header-cell>
+              <mat-cell style="display:inline-block" *matCellDef="let drone">
+                <ng-container *ngFor="let trip of drone.trips; let lastTrip = last">
+                  <b style="font-size:larger">{{trip.id}}</b>
+                  <b style="font-size:larger" *ngIf="">Trip Weight: {{trip | getTripWeight}}</b>
+                    <mat-list>
+                      <mat-list-item *ngFor="let pkg of trip.packages; let lastPkg = last">
+                        Package {{pkg.id}} - Destination: {{pkg.location}}
+                      </mat-list-item>
+                      <mat-divider *ngIf="!lastPkg && !lastTrip"></mat-divider>
+                    </mat-list>
+                </ng-container>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedDroneColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedDroneColumns"></mat-row>
+      
+          </mat-table>
+      </mat-card>
+    </div>
+
+    <mat-card style="font-size: larger">
+      <br /><br />
+      Current drone data after distribution:
+      <div>Stringified:</div><br />
+        {{ JSON.stringify(drones) }}
+      <br />
+      <br />
+      <div>Prettified:</div>
+      <pre>{{ drones | json }}</pre>
+    </mat-card>
+
+  </div>
+</div>
